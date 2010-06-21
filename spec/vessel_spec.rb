@@ -84,6 +84,23 @@ describe Vessel do
 
     @vessel.position[0].should be_close(0, 1e-10)
     @vessel.position[1].should be_close(3, 1e-10)
+  end
 
+  it "should rotate" do
+    @vessel.orientation = 0
+    @vessel.rotate(0.5)
+    @vessel.orientation.should == 0.5
+  end
+
+  it "should rotate past two" do
+    @vessel.orientation = Rational(3, 2)
+    @vessel.rotate(0.6)
+    @vessel.orientation.should be_close(0.1, 1e-10)
+  end
+
+  it "should rotate clockwise through zero" do
+    @vessel.orientation = Rational(1, 2)
+    @vessel.rotate(-0.6)
+    @vessel.orientation.should be_close(1.9, 1e-10)
   end
 end

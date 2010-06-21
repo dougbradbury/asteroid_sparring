@@ -29,11 +29,17 @@ END
   end
 
   def thrust
-    x = Math.cos(@orientation.to_f * Math::PI)
+    acceleration_x = Math.cos(@orientation.to_f * Math::PI)
 
-    y = Math.sqrt(1.0 - (x * x))
-    y *= -1 if x < 0
+    acceleration_y = Math.sqrt(1.0 - (acceleration_x * acceleration_x))
+    acceleration_y *= -1 if acceleration_x < 0
     
-    @velocity += Vector[x, y]
+    @velocity += Vector[acceleration_x, acceleration_y]
+  end
+
+  def rotate(units)
+    @orientation += units
+    @orientation -= 2 if @orientation >= 2
+    @orientation += 2 if @orientation < 0
   end
 end
