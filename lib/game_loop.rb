@@ -9,6 +9,7 @@ class GameLoop
   end
 
   def play(iterations)
+    @pilot.vessel = @vessel.to_hash
     commands = @pilot.get_command
     commands.each do |command|
       if command == :thrust

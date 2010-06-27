@@ -10,7 +10,7 @@ describe GameLoop do
     @vessel.position = [0,0]
     @vessel.velocity = [2,2]
     @vessel.orientation = 0
-    @pilot = mock("pilot")
+    @pilot = mock("pilot", :vessel= => nil, :get_command => [])
     @game.register_vessel(@vessel, @pilot)
   end
 
@@ -27,4 +27,10 @@ describe GameLoop do
 
     @game.play(1)
   end
+
+  it "should give pilot his current position" do
+    @pilot.should_receive(:vessel=).with({:position => [0,0], :velocity => [2,2], :orientation => 0})
+
+    @game.play(1)
+  end  
 end

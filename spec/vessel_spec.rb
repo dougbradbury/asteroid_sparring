@@ -103,4 +103,23 @@ describe Vessel do
     @vessel.rotate(-0.6)
     @vessel.orientation.should be_close(1.9, 1e-10)
   end
+
+  it "should duplicate it's data into a hash" do
+    @vessel.velocity = v = [3, 1]
+    @vessel.position = p = [-1, 8]
+    @vessel.orientation = o = 0.75
+    hash = @vessel.to_hash
+    hash.should == {:position => [-1,8], :velocity => [3,1], :orientation => 0.75}
+
+    hash[:position][0] = 0
+    @vessel.position.should == [-1, 8]
+
+    hash[:orientation] += 2.34
+    @vessel.orientation.should == 0.75
+  end
+
+  it "should have radius" do
+    @vessel.radius = 12
+    @vessel.radius.should == 12
+  end
 end

@@ -5,11 +5,19 @@ class Vessel
   def self.vector_accessor(name)
     module_eval <<END
       def #{name}=(thing)
-        @#{name} = Vector.elements(thing)
+        if thing.is_a?(Vector)
+          @#{name} = thing
+        else
+          @#{name} = Vector.elements(thing)
+        end
       end
 
       def #{name}
         @#{name}.to_a
+      end
+
+      def #{name}_vector
+        return @#{name}
       end
 END
   end
@@ -18,10 +26,12 @@ END
   vector_accessor :velocity
 
   attr_accessor :orientation
+  attr_accessor :radius
 
   def initialize
     @position = [0,0]
     @velocity = [0,0]
+    @radius = 5
   end
 
   def advance
@@ -41,5 +51,9 @@ END
     @orientation += units
     @orientation -= 2 if @orientation >= 2
     @orientation += 2 if @orientation < 0
+  end
+
+  def to_hash
+    {:position => position, :velocity => velocity, :orientation => orientation}
   end
 end
